@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Check, Star, CreditCard, Banknote } from "lucide-react"
+import { Check, Star, CreditCard, Banknote, Sparkles } from "lucide-react"
 
 export function Pricing() {
-  const whatsappNumber = "6289504407244"
+  const whatsappNumber = "6282281212152"
 
   const packages = [
     {
       name: "Basic",
-      price: "Mulai 50K",
+      price: "Mulai 25K",
       description: "Cocok untuk tugas-tugas sederhana",
       features: ["Essay hingga 1000 kata", "Revisi 1x", "Pengerjaan 3-5 hari", "Format standar", "Support via chat"],
       popular: false,
@@ -16,7 +16,7 @@ export function Pricing() {
     },
     {
       name: "Standard",
-      price: "Contact for Information",
+      price: "Contact Us",
       description: "Pilihan terpopuler untuk mahasiswa",
       features: [
         "Essay hingga 2500 kata",
@@ -32,7 +32,7 @@ export function Pricing() {
     },
     {
       name: "Premium",
-      price: "Contact for Information",
+      price: "Contact Us",
       description: "Untuk tugas kompleks dan mendesak",
       features: [
         "Essay unlimited kata",
@@ -53,6 +53,10 @@ export function Pricing() {
     <section id="pricing" className="py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
+          <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Sparkles className="h-4 w-4 mr-2" />
+            Harga Terjangkau
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Paket Harga</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Pilih paket yang sesuai dengan kebutuhan dan budget Anda. Semua paket sudah termasuk garansi kualitas dan
@@ -64,7 +68,7 @@ export function Pricing() {
           {packages.map((pkg, index) => (
             <Card
               key={index}
-              className={`relative ${pkg.popular ? "border-2 border-blue-600 shadow-xl scale-105" : "border border-gray-200"}`}
+              className={`relative transition-all duration-300 hover:shadow-xl ${pkg.popular ? "border-2 border-blue-600 shadow-xl scale-105" : "border border-gray-200 hover:border-blue-200"}`}
             >
               {pkg.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -116,36 +120,45 @@ export function Pricing() {
           <div className="bg-gray-50 rounded-2xl p-8 max-w-4xl mx-auto">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Metode Pembayaran</h3>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="flex items-center justify-center space-x-3 bg-white rounded-lg p-4">
+              <div className="flex items-center justify-center space-x-3 bg-white rounded-lg p-4 shadow-sm">
                 <CreditCard className="h-6 w-6 text-blue-600" />
-                <span className="font-medium">Transfer Bank, E-Wallet (OVO, GoPay, DANA)</span>
+                <span className="font-medium text-gray-700">Transfer Bank, E-Wallet (OVO, GoPay, DANA)</span>
               </div>
-              <div className="flex items-center justify-center space-x-3 bg-white rounded-lg p-4">
+              <div className="flex items-center justify-center space-x-3 bg-white rounded-lg p-4 shadow-sm">
                 <Banknote className="h-6 w-6 text-green-600" />
-                <span className="font-medium">COD (Cash on Delivery) - Area Bengkulu</span>
+                <span className="font-medium text-gray-700">COD (Cash on Delivery) - Area Bengkulu</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-12 text-center">
-          <div className="bg-blue-600 rounded-2xl p-8 text-white max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white max-w-4xl mx-auto shadow-xl">
             <h3 className="text-2xl font-bold mb-4">Paket Khusus Skripsi</h3>
             <div className="text-4xl font-bold mb-2">Mulai dari Rp 500K</div>
             <p className="text-blue-100 mb-6">
               Paket lengkap untuk skripsi dengan bimbingan intensif dan garansi lulus
             </p>
             <div className="grid md:grid-cols-3 gap-4 text-left mb-6">
-              <div className="bg-blue-700 rounded-lg p-4">
-                <h4 className="font-semibold mb-2">✓ Konsultasi Intensif</h4>
+              <div className="bg-blue-700/50 rounded-lg p-4 backdrop-blur-sm">
+                <h4 className="font-semibold mb-2 flex items-center">
+                  <Check className="h-4 w-4 mr-2" />
+                  Konsultasi Intensif
+                </h4>
                 <p className="text-sm text-blue-100">Bimbingan dari awal hingga selesai</p>
               </div>
-              <div className="bg-blue-700 rounded-lg p-4">
-                <h4 className="font-semibold mb-2">✓ Revisi Unlimited</h4>
+              <div className="bg-blue-700/50 rounded-lg p-4 backdrop-blur-sm">
+                <h4 className="font-semibold mb-2 flex items-center">
+                  <Check className="h-4 w-4 mr-2" />
+                  Revisi Unlimited
+                </h4>
                 <p className="text-sm text-blue-100">Revisi sampai dosen approve</p>
               </div>
-              <div className="bg-blue-700 rounded-lg p-4">
-                <h4 className="font-semibold mb-2">✓ Garansi Lulus</h4>
+              <div className="bg-blue-700/50 rounded-lg p-4 backdrop-blur-sm">
+                <h4 className="font-semibold mb-2 flex items-center">
+                  <Check className="h-4 w-4 mr-2" />
+                  Garansi Lulus
+                </h4>
                 <p className="text-sm text-blue-100">Jaminan kelulusan sidang</p>
               </div>
             </div>
@@ -154,7 +167,7 @@ export function Pricing() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3">
+              <Button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3 shadow-lg">
                 Konsultasi Paket Skripsi
               </Button>
             </a>
@@ -168,7 +181,11 @@ export function Pricing() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
+            >
               Konsultasi Harga
             </Button>
           </a>

@@ -1,11 +1,31 @@
 "use client"
 
-import { useState } from "react"
-import { ChevronDown, ChevronUp } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const whatsappNumber = "6282281212152"
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const faqs = [
     {
@@ -51,9 +71,15 @@ export function FAQ() {
   ]
 
   return (
-    <section id="faq" className="py-20 bg-white">
+    <section id="faq" className="py-20 bg-white" ref={sectionRef}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <HelpCircle className="h-4 w-4 mr-2" />
+            FAQ
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Pertanyaan yang Sering Diajukan</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Temukan jawaban untuk pertanyaan umum tentang layanan KelarBro. Jika masih ada yang ingin ditanyakan, jangan
@@ -61,13 +87,14 @@ export function FAQ() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-4" data-aos="fade-up">
+        <div className="max-w-4xl mx-auto space-y-4">
           {faqs.map((faq, index) => (
             <Card
               key={index}
-              className={`border border-gray-200 transition-all duration-300 ${
-                openIndex === index ? "shadow-md" : "hover:border-gray-300"
-              }`}
+              className={`border transition-all duration-500 ${
+                openIndex === index ? "shadow-md border-blue-200" : "hover:border-gray-300"
+              } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: `${index * 50}ms` }}
             >
               <CardContent className="p-0">
                 <button
@@ -78,28 +105,31 @@ export function FAQ() {
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
                     {openIndex === index ? (
-                      <ChevronUp className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                      <ChevronUp className="h-5 w-5 text-blue-600 flex-shrink-0 transition-transform duration-300" />
                     ) : (
-                      <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                      <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0 transition-transform duration-300" />
                     )}
                   </div>
                 </button>
 
-                {openIndex === index && (
-                  <div
-                    className="px-6 pb-6 animate-accordion-down"
-                    id={`faq-answer-${index}`}
-                    aria-labelledby={`faq-question-${index}`}
-                  >
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="px-6 pb-6">
                     <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
                   </div>
-                )}
+                </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <div className="mt-16 text-center" data-aos="fade-up">
+        {/* CTA with animation */}
+        <div
+          className={`mt-16 text-center transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
           <div className="bg-blue-50 rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Masih Ada Pertanyaan?</h3>
             <p className="text-gray-600 mb-6">
@@ -107,16 +137,16 @@ export function FAQ() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://wa.me/6289504407244?text=Halo%20KelarBro,%20saya%20ada%20pertanyaan%20tentang%20layanan%20kalian"
+                href={`https://wa.me/${whatsappNumber}?text=Halo%20KelarBro,%20saya%20ada%20pertanyaan%20tentang%20layanan%20kalian`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md hover:shadow-lg"
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg hover:scale-105"
               >
                 WhatsApp
               </a>
               <a
                 href="mailto:kelarbro01@gmail.com"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md hover:shadow-lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg hover:scale-105"
               >
                 Email
               </a>

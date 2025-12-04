@@ -8,6 +8,7 @@ import Image from "next/image"
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const whatsappNumber = "6282281212152"
 
   const navItems = [
     { name: "Beranda", href: "#home" },
@@ -88,7 +89,7 @@ export function Header() {
           {/* CTA Button Desktop */}
           <div className="hidden md:block">
             <a
-              href="https://wa.me/6289504407244?text=Halo%20KelarBro,%20saya%20ingin%20konsultasi%20tentang%20layanan%20kalian"
+              href={`https://wa.me/${whatsappNumber}?text=Halo%20KelarBro,%20saya%20ingin%20konsultasi%20tentang%20layanan%20kalian`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -129,7 +130,7 @@ export function Header() {
               ))}
               <div className="px-3 py-2">
                 <a
-                  href="https://wa.me/6289504407244?text=Halo%20KelarBro,%20saya%20ingin%20konsultasi%20tentang%20layanan%20kalian"
+                  href={`https://wa.me/${whatsappNumber}?text=Halo%20KelarBro,%20saya%20ingin%20konsultasi%20tentang%20layanan%20kalian`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

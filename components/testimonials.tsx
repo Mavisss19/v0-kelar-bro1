@@ -1,18 +1,33 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Star, ChevronLeft, ChevronRight } from "lucide-react"
-import { useInView } from "react-intersection-observer"
+import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react"
 
 export function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [autoplay, setAutoplay] = useState(true)
-  const { ref, inView } = useInView({
-    threshold: 0.3,
-    triggerOnce: false,
-  })
+  const whatsappNumber = "6282281212152"
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const testimonials = [
     {
@@ -20,42 +35,36 @@ export function Testimonials() {
       university: "Universitas Bengkulu (UNIB)",
       rating: 5,
       text: "KelarBro sangat membantu saya menyelesaikan skripsi tepat waktu. Kualitas penulisan sangat baik dan sesuai dengan standar akademik UNIB. Highly recommended untuk mahasiswa Bengkulu!",
-      image: "/placeholder.svg?height=80&width=80",
     },
     {
       name: "Sari Wulandari",
       university: "Universitas Dehasen Bengkulu",
       rating: 5,
       text: "Tugas programming saya dikerjakan dengan sangat profesional. Code bersih, dokumentasi lengkap, dan berfungsi dengan baik. Tim KelarBro sangat memahami kebutuhan mahasiswa IT.",
-      image: "/placeholder.svg?height=80&width=80",
     },
     {
       name: "Rizki Ramadhan",
       university: "Universitas Muhammadiyah Bengkulu",
       rating: 5,
       text: "Pelayanan customer service sangat responsif dan ramah. Revisi dilakukan dengan cepat sesuai feedback dosen. Puas banget dengan hasilnya, nilai A untuk makalah saya!",
-      image: "/placeholder.svg?height=80&width=80",
     },
     {
       name: "Maya Anggraini",
       university: "Universitas Prof. Dr. Hazairin, SH",
       rating: 5,
       text: "Harga terjangkau untuk mahasiswa tapi kualitas tidak murahan. Laporan praktikum hukum saya dapat nilai A. Akan order lagi pasti untuk tugas-tugas selanjutnya!",
-      image: "/placeholder.svg?height=80&width=80",
     },
     {
       name: "Doni Saputra",
       university: "STAIN Curup",
       rating: 5,
       text: "Deadline yang sangat mepet tapi KelarBro bisa handle dengan baik. Hasilnya memuaskan dan sesuai dengan requirement yang diminta. Sangat membantu mahasiswa Curup!",
-      image: "/placeholder.svg?height=80&width=80",
     },
     {
       name: "Fitri Handayani",
       university: "Politeknik Negeri Bengkulu",
       rating: 5,
       text: "Tim KelarBro sangat ahli di bidangnya. Makalah teknik yang dikerjakan mendapat apresiasi dari dosen. Kualitas referensi juga sangat bagus dan up to date.",
-      image: "/placeholder.svg?height=80&width=80",
     },
   ]
 
@@ -63,14 +72,14 @@ export function Testimonials() {
   useEffect(() => {
     let interval: NodeJS.Timeout
 
-    if (autoplay && inView) {
+    if (autoplay && isVisible) {
       interval = setInterval(() => {
         setActiveIndex((current) => (current + 1) % testimonials.length)
       }, 5000)
     }
 
     return () => clearInterval(interval)
-  }, [autoplay, inView, testimonials.length])
+  }, [autoplay, isVisible, testimonials.length])
 
   // Pause autoplay on hover
   const handleMouseEnter = () => setAutoplay(false)
@@ -100,9 +109,15 @@ export function Testimonials() {
   const visibleTestimonials = getVisibleTestimonials()
 
   return (
-    <section id="testimonials" className="py-20 bg-blue-50" ref={ref}>
+    <section id="testimonials" className="py-20 bg-blue-50" ref={sectionRef}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Star className="h-4 w-4 mr-2 fill-current" />
+            Testimoni
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Testimoni Mahasiswa Bengkulu</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Dengar langsung dari mahasiswa universitas di Bengkulu yang telah merasakan layanan KelarBro dan berhasil
@@ -110,25 +125,25 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} data-aos="fade-up">
+        <div
+          className={`relative transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           {/* Desktop Testimonials */}
           <div className="hidden md:grid md:grid-cols-3 gap-8">
             {visibleTestimonials.map((testimonial, index) => (
               <Card
                 key={index}
-                className={`border-0 shadow-lg bg-white hover:shadow-xl transition-all duration-500 ${
-                  index === 0
-                    ? "transform translate-y-0"
-                    : index === 1
-                      ? "transform -translate-y-4"
-                      : "transform translate-y-0"
+                className={`border-0 shadow-lg bg-white hover:shadow-xl transition-all duration-500 relative ${
+                  index === 1 ? "transform -translate-y-4" : ""
                 }`}
               >
                 <CardContent className="p-6">
+                  <Quote className="h-8 w-8 text-blue-200 mb-4" />
                   <div className="flex items-center mb-4 space-x-4">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-blue-100">
-                      {/* Placeholder for user image */}
-                      <div className="absolute inset-0 flex items-center justify-center text-blue-600 font-bold text-xl">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600">
+                      <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">
                         {testimonial.name.charAt(0)}
                       </div>
                     </div>
@@ -144,7 +159,7 @@ export function Testimonials() {
                     ))}
                   </div>
 
-                  <p className="text-gray-700 leading-relaxed mb-6 italic">"{testimonial.text}"</p>
+                  <p className="text-gray-700 leading-relaxed italic">"{testimonial.text}"</p>
                 </CardContent>
               </Card>
             ))}
@@ -154,10 +169,10 @@ export function Testimonials() {
           <div className="md:hidden">
             <Card className="border-0 shadow-lg bg-white">
               <CardContent className="p-6">
+                <Quote className="h-8 w-8 text-blue-200 mb-4" />
                 <div className="flex items-center mb-4 space-x-4">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-blue-100">
-                    {/* Placeholder for user image */}
-                    <div className="absolute inset-0 flex items-center justify-center text-blue-600 font-bold text-xl">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600">
+                    <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">
                       {testimonials[activeIndex].name.charAt(0)}
                     </div>
                   </div>
@@ -173,7 +188,7 @@ export function Testimonials() {
                   ))}
                 </div>
 
-                <p className="text-gray-700 leading-relaxed mb-6 italic">"{testimonials[activeIndex].text}"</p>
+                <p className="text-gray-700 leading-relaxed italic">"{testimonials[activeIndex].text}"</p>
               </CardContent>
             </Card>
           </div>
@@ -184,7 +199,7 @@ export function Testimonials() {
               variant="outline"
               size="icon"
               onClick={goPrev}
-              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300"
+              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300 bg-transparent hover:scale-110 transition-all"
             >
               <ChevronLeft className="h-5 w-5" />
             </Button>
@@ -192,8 +207,8 @@ export function Testimonials() {
               {testimonials.map((_, idx) => (
                 <button
                   key={idx}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    idx === activeIndex ? "bg-blue-600 w-6" : "bg-gray-300"
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    idx === activeIndex ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"
                   }`}
                   onClick={() => setActiveIndex(idx)}
                   aria-label={`Go to testimonial ${idx + 1}`}
@@ -204,15 +219,18 @@ export function Testimonials() {
               variant="outline"
               size="icon"
               onClick={goNext}
-              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300"
+              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300 bg-transparent hover:scale-110 transition-all"
             >
               <ChevronRight className="h-5 w-5" />
             </Button>
           </div>
         </div>
 
-        <div className="mt-16 text-center">
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-4xl mx-auto" data-aos="fade-up">
+        {/* CTA with animation */}
+        <div
+          className={`mt-16 text-center transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
               Bergabung dengan 500+ Mahasiswa Bengkulu yang Puas
             </h3>
@@ -221,25 +239,25 @@ export function Testimonials() {
               perbedaannya!
             </p>
             <div className="flex flex-col md:flex-row justify-center items-center md:space-x-8 space-y-4 md:space-y-0 mb-6">
-              <div className="text-center" data-aos="fade-up" data-aos-delay="100">
+              <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600">4.9/5</div>
                 <div className="text-sm text-gray-600">Rating Rata-rata</div>
               </div>
-              <div className="text-center" data-aos="fade-up" data-aos-delay="200">
+              <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600">500+</div>
                 <div className="text-sm text-gray-600">Mahasiswa Puas</div>
               </div>
-              <div className="text-center" data-aos="fade-up" data-aos-delay="300">
+              <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600">98%</div>
                 <div className="text-sm text-gray-600">Tingkat Kepuasan</div>
               </div>
             </div>
             <a
-              href="https://wa.me/6289504407244?text=Halo%20KelarBro,%20saya%20ingin%20bergabung%20dan%20menggunakan%20layanan%20kalian"
+              href={`https://wa.me/${whatsappNumber}?text=Halo%20KelarBro,%20saya%20ingin%20bergabung%20dan%20menggunakan%20layanan%20kalian`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 Mulai Sekarang
               </Button>
             </a>

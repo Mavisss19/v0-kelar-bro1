@@ -2,6 +2,9 @@ import { Instagram, Mail, Phone, MapPin } from "lucide-react"
 import Image from "next/image"
 
 export function Footer() {
+  const whatsappNumber = "6282281212152"
+  const whatsappDisplay = "+62 822-8121-2152"
+
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -29,7 +32,7 @@ export function Footer() {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://wa.me/6289504407244"
+                href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors"
@@ -120,8 +123,11 @@ export function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-blue-400" />
-                <a href="https://wa.me/6289504407244" className="text-gray-400 hover:text-white transition-colors">
-                  +62 895-0440-7244
+                <a
+                  href={`https://wa.me/${whatsappNumber}`}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  {whatsappDisplay}
                 </a>
               </div>
               <div className="flex items-center space-x-3">
@@ -151,7 +157,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">© 2024 KelarBro. All rights reserved.</p>
+            <p className="text-gray-400 text-sm">&copy; 2025 KelarBro. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Kebijakan Privasi

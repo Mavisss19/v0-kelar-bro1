@@ -4,34 +4,23 @@ import { useEffect } from "react"
 
 export function SimpleAnalytics() {
   useEffect(() => {
-    // Simple page view tracking
     const trackPageView = () => {
       try {
-        // Basic page view tracking
-        console.log("Page viewed:", window.location.pathname)
-
-        // Track page load time
-        if (window.performance && window.performance.timing) {
+        // Track basic page metrics silently
+        if (typeof window !== "undefined" && window.performance) {
           const timing = window.performance.timing
           const loadTime = timing.loadEventEnd - timing.navigationStart
-          console.log("Page load time:", loadTime + "ms")
+
+          // Store metrics for potential analytics integration
+          if (loadTime > 0) {
+            sessionStorage.setItem("page_load_time", loadTime.toString())
+          }
         }
-
-        // Track viewport size
-        console.log("Viewport:", {
-          width: window.innerWidth,
-          height: window.innerHeight,
-        })
-
-        // Track user agent
-        console.log("User Agent:", navigator.userAgent)
       } catch (error) {
         // Silently fail
-        console.log("Analytics error:", error)
       }
     }
 
-    // Track on load
     if (document.readyState === "complete") {
       trackPageView()
     } else {
@@ -44,9 +33,9 @@ export function SimpleAnalytics() {
       const scrollPercent = Math.round(
         (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100,
       )
-      if (scrollPercent > maxScroll) {
+      if (scrollPercent > maxScroll && scrollPercent <= 100) {
         maxScroll = scrollPercent
-        console.log("Max scroll depth:", maxScroll + "%")
+        sessionStorage.setItem("max_scroll", maxScroll.toString())
       }
     }
 

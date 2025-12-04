@@ -16,11 +16,10 @@ import { SimpleAnalytics } from "@/components/simple-analytics"
 export const metadata = {
   title: "KelarBro - Joki Tugas Kuliah #1 di Bengkulu | Essay, Skripsi, Programming",
   description:
-    "🎓 Jasa tugas kuliah terpercaya di Bengkulu! ✅ Essay, Makalah, Programming, Skripsi ✅ Garansi revisi ✅ Tepat waktu ✅ Harga mahasiswa ✅ COD tersedia. Melayani UNIB, Dehasen, UMB, STAIN Curup.",
+    "Jasa tugas kuliah terpercaya di Bengkulu! Essay, Makalah, Programming, Skripsi. Garansi revisi, Tepat waktu, Harga mahasiswa, COD tersedia. Melayani UNIB, Dehasen, UMB, STAIN Curup.",
   keywords:
     "joki tugas kuliah bengkulu, jasa essay bengkulu, jasa skripsi UNIB, tugas kuliah dehasen, programming bengkulu, makalah UMB, jasa ketik bengkulu, COD bengkulu",
   authors: [{ name: "KelarBro Team" }],
-  viewport: "width=device-width, initial-scale=1",
   openGraph: {
     title: "KelarBro - Joki Tugas Kuliah Terpercaya #1 di Bengkulu",
     description:
@@ -28,27 +27,11 @@ export const metadata = {
     type: "website",
     locale: "id_ID",
     siteName: "KelarBro",
-    images: [
-      {
-        url: "/images/kelarbro-og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "KelarBro - Joki Tugas Kuliah Terpercaya",
-      },
-    ],
   },
   robots: {
     index: true,
     follow: true,
   },
-  alternates: {
-    canonical: "https://kelarbro.com",
-  },
-  verification: {
-    google: "google-site-verification-code",
-  },
-  themeColor: "#1d4ed8",
-  manifest: "/manifest.json",
 }
 
 export default function Home() {
@@ -58,13 +41,15 @@ export default function Home() {
         <OptimizedLoading />
         <SimpleAnalytics />
         <Header />
-        <Hero />
-        <Services />
-        <About />
-        <Pricing />
-        <EnhancedTestimonials />
-        <FAQ />
-        <Contact />
+        <main>
+          <Hero />
+          <Services />
+          <About />
+          <Pricing />
+          <EnhancedTestimonials />
+          <FAQ />
+          <Contact />
+        </main>
         <Footer />
         <FloatingWhatsApp />
         <ScrollToTop />

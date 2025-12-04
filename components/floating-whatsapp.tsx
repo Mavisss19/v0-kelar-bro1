@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 export function FloatingWhatsApp() {
   const [isVisible, setIsVisible] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
-  const whatsappNumber = "6289504407244"
+  const whatsappNumber = "6282281212152"
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,7 +30,7 @@ export function FloatingWhatsApp() {
         <div className="absolute bottom-16 right-0 bg-white rounded-lg shadow-lg p-3 mb-2 max-w-xs animate-bounce">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm font-semibold text-gray-900">💬 Butuh bantuan?</p>
+              <p className="text-sm font-semibold text-gray-900">Butuh bantuan?</p>
               <p className="text-xs text-gray-600">Chat dengan kami sekarang!</p>
             </div>
             <button onClick={() => setShowTooltip(false)} className="text-gray-400 hover:text-gray-600">
@@ -57,7 +57,7 @@ export function FloatingWhatsApp() {
       </a>
 
       {/* Pulse Animation */}
-      <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></div>
+      <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20 pointer-events-none"></div>
     </div>
   )
 }

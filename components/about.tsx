@@ -1,9 +1,31 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Award, Shield, Clock, Users, Target, Heart, Zap, CheckCircle } from "lucide-react"
+import { Award, Shield, Clock, Users, Target, Heart, Zap, CheckCircle, Sparkles } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 
 export function About() {
-  const whatsappNumber = "6289504407244"
+  const whatsappNumber = "6282281212152"
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const features = [
     {
@@ -41,11 +63,18 @@ export function About() {
   ]
 
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
+    <section
+      id="about"
+      className="py-20 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden"
+      ref={sectionRef}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center mb-16">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
           <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-            🏆 Tentang Kami
+            <Sparkles className="h-4 w-4 mr-2" />
+            Tentang Kami
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Mengapa KelarBro?</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -54,15 +83,20 @@ export function About() {
           </p>
         </div>
 
-        {/* Achievement Stats */}
+        {/* Achievement Stats with animation */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {achievements.map((achievement, index) => (
             <Card
               key={index}
-              className="text-center border-0 shadow-lg bg-white hover:shadow-xl transition-shadow duration-300"
+              className={`text-center border-0 shadow-lg bg-white hover:shadow-xl transition-all duration-500 group ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <CardContent className="p-6">
-                <div className="flex justify-center mb-3 text-blue-600">{achievement.icon}</div>
+                <div className="flex justify-center mb-3 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                  {achievement.icon}
+                </div>
                 <div className="text-3xl font-bold text-gray-900 mb-2">{achievement.number}</div>
                 <div className="text-sm text-gray-600">{achievement.label}</div>
               </CardContent>
@@ -70,11 +104,15 @@ export function About() {
           ))}
         </div>
 
+        {/* Features with animation */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="text-center border-0 shadow-lg bg-white hover:shadow-xl transition-all duration-300 group"
+              className={`text-center border-0 shadow-lg bg-white hover:shadow-xl transition-all duration-500 group ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
               <CardContent className="p-8">
                 <div className="flex justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -92,7 +130,9 @@ export function About() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
+          <div
+            className={`space-y-6 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}
+          >
             <div>
               <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
                 <Target className="h-4 w-4 mr-2" />
@@ -115,14 +155,16 @@ export function About() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-300">
-                  💬 Pelajari Lebih Lanjut
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  Pelajari Lebih Lanjut
                 </Button>
               </a>
             </div>
           </div>
 
-          <div className="relative">
+          <div
+            className={`relative transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}
+          >
             <Card className="bg-gradient-to-br from-blue-600 to-blue-700 text-white border-0 shadow-2xl">
               <CardContent className="p-8">
                 <div className="flex items-center mb-6">
@@ -130,33 +172,33 @@ export function About() {
                   <h4 className="text-2xl font-bold">Komitmen Kami</h4>
                 </div>
                 <ul className="space-y-4">
-                  <li className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-blue-200 mt-0.5 flex-shrink-0" />
-                    <span>Kualitas hasil kerja terbaik dengan standar akademik tinggi</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-blue-200 mt-0.5 flex-shrink-0" />
-                    <span>Pelayanan yang ramah, profesional, dan responsif 24/7</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-blue-200 mt-0.5 flex-shrink-0" />
-                    <span>Harga yang fair, transparan, dan terjangkau untuk mahasiswa</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-blue-200 mt-0.5 flex-shrink-0" />
-                    <span>Kepuasan pelanggan adalah prioritas utama kami</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-blue-200 mt-0.5 flex-shrink-0" />
-                    <span>Kerahasiaan data dan privasi terjamin 100%</span>
-                  </li>
+                  {[
+                    "Kualitas hasil kerja terbaik dengan standar akademik tinggi",
+                    "Pelayanan yang ramah, profesional, dan responsif 24/7",
+                    "Harga yang fair, transparan, dan terjangkau untuk mahasiswa",
+                    "Kepuasan pelanggan adalah prioritas utama kami",
+                    "Kerahasiaan data dan privasi terjamin 100%",
+                  ].map((item, index) => (
+                    <li
+                      key={index}
+                      className={`flex items-start space-x-3 transition-all duration-500 ${
+                        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
+                      }`}
+                      style={{ transitionDelay: `${700 + index * 100}ms` }}
+                    >
+                      <CheckCircle className="h-5 w-5 text-blue-200 mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
                 </ul>
               </CardContent>
             </Card>
 
             {/* Floating Badge */}
-            <div className="absolute -top-4 -right-4 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-              ⭐ Terpercaya
+            <div
+              className={`absolute -top-4 -right-4 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-all duration-700 delay-1000 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"}`}
+            >
+              Terpercaya
             </div>
           </div>
         </div>

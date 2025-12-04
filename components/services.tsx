@@ -1,17 +1,40 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
   BookOpen,
   Code,
   FileText,
-  PresentationIcon as PresentationChart,
+  Presentation as PresentationChart,
   Microscope,
   Palette,
   ArrowRight,
+  Sparkles,
 } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 
 export function Services() {
-  const whatsappNumber = "6289504407244"
+  const whatsappNumber = "6282281212152"
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const services = [
     {
@@ -19,7 +42,7 @@ export function Services() {
       title: "Essay & Makalah",
       description: "Penulisan essay, makalah, dan karya tulis ilmiah dengan referensi lengkap dan berkualitas tinggi.",
       features: ["Referensi terpercaya", "Plagiarism free", "Format APA/MLA"],
-      price: "Mulai 50K",
+      price: "Mulai 25K",
       whatsappText: "Halo%20KelarBro,%20saya%20butuh%20bantuan%20untuk%20essay%20dan%20makalah",
     },
     {
@@ -43,7 +66,7 @@ export function Services() {
       title: "Presentasi",
       description: "Pembuatan slide presentasi yang menarik dan profesional untuk berbagai keperluan.",
       features: ["Template modern", "Animasi menarik", "Speaker notes"],
-      price: "Mulai 75K",
+      price: "Mulai 50K",
       whatsappText: "Halo%20KelarBro,%20saya%20butuh%20bantuan%20presentasi",
     },
     {
@@ -51,7 +74,7 @@ export function Services() {
       title: "Laporan Praktikum",
       description: "Penyusunan laporan praktikum lengkap dengan analisis data dan pembahasan mendalam.",
       features: ["Analisis data", "Grafik & tabel", "Kesimpulan akurat"],
-      price: "Mulai 60K",
+      price: "Mulai 40K",
       whatsappText: "Halo%20KelarBro,%20saya%20butuh%20bantuan%20laporan%20praktikum",
     },
     {
@@ -65,11 +88,14 @@ export function Services() {
   ]
 
   return (
-    <section id="services" className="py-20 bg-gradient-to-b from-white to-gray-50">
+    <section id="services" className="py-20 bg-gradient-to-b from-white to-gray-50" ref={sectionRef}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
           <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-            🎓 Layanan Terlengkap
+            <Sparkles className="h-4 w-4 mr-2" />
+            Layanan Terlengkap
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Layanan Kami</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -82,13 +108,16 @@ export function Services() {
           {services.map((service, index) => (
             <Card
               key={index}
-              className="border-2 border-gray-100 hover:border-blue-200 transition-all duration-300 hover:shadow-xl group relative overflow-hidden"
+              className={`border-2 border-gray-100 hover:border-blue-200 transition-all duration-500 hover:shadow-xl group relative overflow-hidden ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               {/* Background Gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <CardHeader className="relative z-10">
-                <div className="mb-4 p-3 bg-blue-50 rounded-lg w-fit group-hover:bg-blue-100 transition-colors duration-300">
+                <div className="mb-4 p-3 bg-blue-50 rounded-lg w-fit group-hover:bg-blue-100 transition-colors duration-300 group-hover:scale-110 transform">
                   {service.icon}
                 </div>
                 <CardTitle className="text-xl text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
@@ -124,7 +153,9 @@ export function Services() {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 text-center">
+        <div
+          className={`mt-16 text-center transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-8 text-white shadow-2xl">
             <h3 className="text-2xl font-bold mb-4">Tidak Menemukan Layanan yang Anda Cari?</h3>
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
@@ -137,7 +168,7 @@ export function Services() {
               rel="noopener noreferrer"
             >
               <Button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3 shadow-lg">
-                💬 Konsultasi Gratis Sekarang
+                Konsultasi Gratis Sekarang
               </Button>
             </a>
           </div>

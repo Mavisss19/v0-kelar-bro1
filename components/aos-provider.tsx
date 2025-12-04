@@ -1,26 +1,32 @@
 "use client"
 
 import type React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export function AOSProvider({ children }: { children: React.ReactNode }) {
+  const [isReady, setIsReady] = useState(false)
+
   useEffect(() => {
-    // Dynamically import AOS to avoid SSR issues
-    const initAOS = async () => {
-      const AOS = (await import("aos")).default
-      await import("aos/dist/aos.css")
+    // Simple fade-in animation without external AOS library
+    setIsReady(true)
 
-      // Initialize AOS
-      AOS.init({
-        duration: 1000,
-        once: true,
-        easing: "ease-out-cubic",
-        offset: 100,
-        delay: 100,
-      })
-    }
+    // Add intersection observer for scroll animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("aos-animate")
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+    )
 
-    initAOS()
+    // Observe all elements with data-aos attribute
+    const animatedElements = document.querySelectorAll("[data-aos]")
+    animatedElements.forEach((el) => observer.observe(el))
+
+    return () => observer.disconnect()
   }, [])
 
   return <>{children}</>

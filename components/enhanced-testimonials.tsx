@@ -217,7 +217,7 @@ export function EnhancedTestimonials() {
               variant="outline"
               size="icon"
               onClick={goPrev}
-              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300"
+              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300 bg-transparent"
             >
               <ChevronLeft className="h-5 w-5" />
             </Button>
@@ -237,7 +237,7 @@ export function EnhancedTestimonials() {
               variant="outline"
               size="icon"
               onClick={goNext}
-              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300"
+              className="rounded-full border-gray-300 hover:bg-blue-100 hover:border-blue-300 bg-transparent"
             >
               <ChevronRight className="h-5 w-5" />
             </Button>
@@ -273,12 +273,12 @@ export function EnhancedTestimonials() {
               </div>
             </div>
             <a
-              href="https://wa.me/6289504407244?text=Halo%20KelarBro,%20saya%20ingin%20bergabung%20dan%20menggunakan%20layanan%20kalian"
+              href="https://wa.me/6282281212152?text=Halo%20KelarBro,%20saya%20ingin%20bergabung%20dan%20menggunakan%20layanan%20kalian"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300">
-                🚀 Mulai Sekarang
+                Mulai Sekarang
               </Button>
             </a>
           </div>
